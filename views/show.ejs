@@ -1,26 +1,87 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Show About the List</title>
-</head>
+<% layout("/Layouts/boilerplate") %>
 <body>
-    <h3>Listings Details</h3>
+    <h2>Listings Details</h2>
     
-    </form>
-    <ul>
-        <li><%= data.title %></li>
-        <li><%= data.description %></li>
-        <li>&#8377;<%= data.price.toLocaleString("en-IN")%></li>
-        <li><%= data.location %></li>
-        <li><%= data.country %></li>
+    <div class="md-center">
+        <br><br><br>
+        <h3><%= data.title %></h3>
+        <br>
+        <div>
+            <img src="<%= data.image %>" alt="photo" width="500px">
+            
+        </div>
+
+        <b>Owned by <%= data.owner.username %></b>
+        <p><%= data.description %></p>
+        <p>&#8377;<%= data.price.toLocaleString("en-IN")%></p>
+        <p><%= data.location %></p>
+        <p><%= data.country %></p>
+        <% if(currUser && data.owner._id.equals(currUser._id)){ %>
+        <div class="first">
+            <div>
+                <form action="/listings/<%= data.id %>/edit" method="get">
+                    <button>Edit</button>
+                </form>
+            </div>
+           
+            <div>     
+                 <form action="/listings/<%= data.id %>?_method=DELETE" method="post">
+                       <button id="del">Delete </button>
+                  </form>
+            </div>
+        </div>
+        <hr>
+        <% } %>
+
+        <% if (currUser) { %>
+            <div >
+                <h4>Leave a  Review</h4><br><br>
+                <form action="/listings/<%= data.id %>/reviews" method="post" novalidate class="needs-validation">
+                    <div>
+                        <label class="form-label" for="rating">Rating</label>
+                        <input type="range" name="review[rating]" id="rating" min=1 max=5>
+                    </div><br>
+                    <div>
+                        <label class="form-label" for="comment">Comments</label>
+                        <textarea class="form-control"type="text" name="review[comment]" id="comment" required></textarea>
+                        <div class="valid-feedback">
+                            Review looks good
+                        </div>
+                        <div class="invalid-feedback">
+                           Please add a valid review.
+                         </div>
+                    </div><br>
+                    <button class="btn btn-outline-dark">Submit</button>
+                </form>
+            </div>
+            <hr>
+            
+        <% } %>
         
-    </ul>
-    <a href="/listings/<%= data.id %>/edit">Edit this Listing</a>
-    <form action="/listings/<%= data.id %>?_method=DELETE" method="post">
-        <button>Delete this Listing</button>
-    </form>
+        <% if (data.reviews.length != 0) { %>
+        
+        <H4>All Reviews</H4>
+        <div class="row">
+            
+            <% for (review of data.reviews) {%>
+                <div class="card col-5 mb-3">
+                   <div class="card-body">
+                      <h5 class="card-title"><%= review.author%></h5>
+                      <p class="card-text"><%= review.comment %></p>
+                      <p class="card-text"><%= review.rating %> stars</p>
+                      <!-- <p class="card-text"><%= review.id %> stars</p> -->
+                   </div>
+                   <form action="/listings/<%= data.id %>/reviews/<%= review.id %>?_method=DELETE" method="post">
+                    <button class="btn btn-sm btn-danger mb-2">Delete</button>
+                   </form>
+                </div>
+            <% } %>    
+        </div>
+        <% } %>
+        
+            
+        
+    </div>
+    
     
 </body>
-</html>

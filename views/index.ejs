@@ -1,10 +1,11 @@
 <% layout("./Layouts/boilerplate") %>
+   
     <h1>All listings</h1>
     <div class="flex">
         <% for( list of Alllistings  ) { %>
           <a href="/listings/<%= list._id %>">
             
-            <div class="card" style="width: 18rem;">
+            <div class="card listing-card" style="width: 18rem;">
                 <img src="<%= list.image %>" height="345px" class="card-img-top" alt="...">
                 <div class="card-body">
                   <p class="card-text"><%= list.title %> <br>
@@ -20,4 +21,5 @@
     </div>
 
      
+    
     

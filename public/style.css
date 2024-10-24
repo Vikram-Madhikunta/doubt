@@ -1,6 +1,6 @@
 .navbar{
     height: 5rem;
-    background-color: white;
+    background:linear-gradient(white,rgb(225, 219, 226),whitesmoke);
 }
 
 .fa-compass{
@@ -34,11 +34,11 @@
     gap: 10px;
 }
 
-.card {
+.listing-card {
     border: none;  
 }
 
-.card:hover{
+.listing-card:hover{
     opacity: 0.8;
 }
 
@@ -54,4 +54,44 @@
 
 a{
     text-decoration: none;
+}
+
+div form button{
+    background-color: rgb(40, 108, 131);
+    color: white;
+    border-radius: 10px;
+    outline: none;
+    border: none;
+    width: 95px;
+    height: 40px;
+}
+
+.md-center{
+    width: 60vw;
+    margin: auto;
+}
+
+h2{
+text-align: center;
+}
+img{
+    margin: auto;
+    border-radius: 10px;
+}
+
+.first{
+    display: flex;
+    column-gap: 20px;
+}
+
+#del{
+    background-color: #c90c0c;
+
+}
+
+#card{
+    margin-top: 50px;
+    border: 2px solid black;
+    padding: 5px;
+    
 }
