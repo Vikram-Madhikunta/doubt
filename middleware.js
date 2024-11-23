@@ -17,3 +17,21 @@ module.exports.saveRedirectUrl = (req,res,next)=>{
     next();
 }
 
+module.exports.isowner= async(req,res,next)=>{
+    let {id}=req.params;
+    let currListing= await Listing.findById(id);
+    if(!currListing.owner.equals(res.locals.currUser._id)){
+        req.flash("error","Access Denied");
+        return res.redirect(`/listings/${id}`);
+    }
+    next();
+}
+module.exports.isReviewAuthor= async(req,res,next)=>{
+    let {id, reviewId}= req.params;
+    let currReview=await Review.findById(reviewId);
+    if(!currReview.author.equals(res.locals.currUser._id)){
+        req.flash("error","Access Denied");
+        return res.redirect(`/listings/${id}`);
+    }
+    next();
+}

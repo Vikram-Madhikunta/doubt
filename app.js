@@ -24,9 +24,9 @@ const usersRouter = require('./Routes/users.js');
 async function main() {
     try {
         await mongoose.connect('mongodb://127.0.0.1:27017/wonderlust');
-        console.log("MongoDB connection successful");
+        console.log(" connection successful");
     } catch (err) {
-        console.error("MongoDB connection error:", err);
+        console.error(" connection error:", err);
     }
 }
 
