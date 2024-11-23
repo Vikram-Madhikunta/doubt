@@ -23,7 +23,7 @@ const validateReview = (req,res,next)=>{
     }
 }
 
-router.post("/",validateReview,isLoggedIn,isReviewAuthor,asyncWrap( async(req,res)=>{
+router.post("/",validateReview,isLoggedIn,asyncWrap( async(req,res)=>{
     let listings = await Listing.findById(req.params.id);
     let newreview = new Review(req.body.review); 
     newreview.author = req.user._id;

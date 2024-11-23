@@ -28,6 +28,7 @@ module.exports.showlistings = async (req, res, next) => {
         return next(new ExpressError(404, "Could not find this listing"));
     }
 
+
     res.render("show.ejs", { data });
 }
 
