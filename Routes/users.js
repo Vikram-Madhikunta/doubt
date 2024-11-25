@@ -4,9 +4,9 @@ const passport =require('passport');
 const { saveRedirectUrl, isLoggedIn } = require('../middleware.js');
 const { signupPage, postSignup, loginPage, postLogin, logout } = require('../controllers/users.js');
 
-router.get("/signup",signupPage)
-
-router.post("/signup",isLoggedIn,postSignup)
+router.route("/signup")
+      .get(signupPage)
+      .post(isLoggedIn,postSignup)
 
 router.get("/login",loginPage)
 

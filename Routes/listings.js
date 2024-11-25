@@ -24,24 +24,24 @@ const validateListing = (req, res, next) => {
 };
 
 // Route to get all listings
-router.get("/", asyncWrap(index));
+router.route("/")
+      .get(asyncWrap(index))
+      .post(isLoggedIn, validateListing, asyncWrap(addListing));
 
-// Route to render new listing form
-router.get("/new", isLoggedIn,renderNewform);
 
 // Route to get listing by ID
 router.get("/:id", asyncWrap(showlistings));
 
-// Route to create a new listing
-router.post("/", isLoggedIn, validateListing, asyncWrap(addListing));
+
 
 // Route to edit a listing
 router.get("/:id/edit", isLoggedIn, isowner, asyncWrap(editListingForm));
 
 // Route to update a listing
-router.put("/:id", isLoggedIn, isowner, validateListing, asyncWrap(updateListing));
+router.route("/:id")
+    .put(isLoggedIn, isowner, validateListing, asyncWrap(updateListing))
+    .delete(isLoggedIn, isowner, asyncWrap(deleteListings));
 
 // Route to delete a listing
-router.delete("/:id", isLoggedIn, isowner, asyncWrap(deleteListings));
 
 module.exports = router;
