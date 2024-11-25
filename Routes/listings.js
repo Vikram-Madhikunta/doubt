@@ -44,7 +44,7 @@ router.get("/:id/edit", isLoggedIn, isowner, asyncWrap(editListingForm));
 
 // Route to update a listing
 router.route("/:id")
-    .put(isLoggedIn, isowner, validateListing, asyncWrap(updateListing))
+    .put(isLoggedIn, isowner, validateListing,upload.single('image'), asyncWrap(updateListing))
     .delete(isLoggedIn, isowner, asyncWrap(deleteListings));
 
 // Route to delete a listing

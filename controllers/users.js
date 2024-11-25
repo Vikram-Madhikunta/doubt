@@ -9,6 +9,7 @@ module.exports.signupPage =  (req,res)=>{
 module.exports.postSignup = async(req,res)=>{
     try {
         let {username,email,password} = req.body;
+        // console.log(req.body);
         const newUser = new User({email,username});
         const registeredUser = await User.register(newUser , password);
         req.login(registeredUser,(err)=>{

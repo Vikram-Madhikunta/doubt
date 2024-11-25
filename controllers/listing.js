@@ -1,5 +1,6 @@
 const Listing = require("../modals/listing.js");
-
+const ExpressError = require("../ExpressError.js"); 
+require("dotenv").config();
 
 module.exports.index = async (req, res) => {
     let Alllistings = await Listing.find({});
@@ -29,7 +30,7 @@ module.exports.showlistings = async (req, res, next) => {
     }
 
 
-    res.render("show.ejs", { data });
+    res.render("show.ejs", { data ,   mapToken: process.env.MAP_TOKEN });
 }
 
 module.exports.addListing = async (req, res) => {
@@ -49,6 +50,7 @@ module.exports.addListing = async (req, res) => {
 module.exports.editListingForm  = async (req, res, next) => {
     const { id } = req.params;
     const data = await Listing.findById(id);
+   
 
     if (!data) {
         console.error(`Listing with ID ${id} not found for editing`);
@@ -58,20 +60,39 @@ module.exports.editListingForm  = async (req, res, next) => {
     res.render("edit.ejs", { data });
 }
 
-module.exports.updateListing = async (req, res) => {
-    const { title, description, image, price, country, location } = req.body;
+// Ensure this is properly imported
+
+module.exports.updateListing = async (req, res, next) => {
+    const { title, description, price, country, location } = req.body;
     const { id } = req.params;
 
-    const updatedListing = await Listing.findByIdAndUpdate(id, { title, description, image, price, country, location });
+    try {
+        // Find and update the listing
+        const updatedData = { title, description, price, country, location };
+        if (req.file) {
+            updatedData.image = {
+                url: req.file.url,
+                filename: req.file.filename,
+            };
+        }
 
-    if (!updatedListing) {
-        console.error(`Failed to update listing with ID ${id}`);
-        return next(new ExpressError(404, "Could not update this listing"));
+        const updatedListing = await Listing.findByIdAndUpdate(id, updatedData, {
+            new: true, // Return the updated document
+            runValidators: true, // Ensure schema validators are applied
+        });
+
+        if (!updatedListing) {
+            console.error(`Failed to update listing with ID ${id}`);
+            throw new ExpressError(404, "Listing not found");
+        }
+
+        req.flash("success", "Listing Updated");
+        res.redirect(`/listings/${id}`);
+    } catch (error) {
+        console.error(`Error updating listing: ${error.message}`);
+        next(error);
     }
-
-    req.flash("success", "Listing Updated");
-    res.redirect(`/listings/${id}`);
-}
+};
 
 module.exports.deleteListings = async (req, res, next) => {
     const { id } = req.params;

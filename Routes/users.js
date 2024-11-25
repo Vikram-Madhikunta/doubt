@@ -6,7 +6,7 @@ const { signupPage, postSignup, loginPage, postLogin, logout } = require('../con
 
 router.route("/signup")
       .get(signupPage)
-      .post(isLoggedIn,postSignup)
+      .post(postSignup)
 
 router.get("/login",loginPage)
 

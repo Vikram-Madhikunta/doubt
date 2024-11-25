@@ -95,3 +95,8 @@ img{
     padding: 5px;
     
 }
+
+#map{
+    height: 50vh;
+    width: 60vw;
+}
