@@ -72,7 +72,7 @@ app.use((req, res, next) => {
     res.locals.successMsg = req.flash('success');
     res.locals.errorMsg = req.flash('error');
     res.locals.currUser = req.user;
-    console.log("Current User:", req.user);
+    // console.log("Current User:", req.user);
     next();
 });
 
@@ -94,7 +94,7 @@ app.all("*", (req, res, next) => {
 // Error handling middleware
 app.use((err, req, res, next) => {
     const { status = 500, message = "Something went wrong" } = err;
-    console.error("Error:", err); // Log full error for debugging
+    // console.error("Error:", err); // Log full error for debugging
     res.status(status).send(message);
 });
 
