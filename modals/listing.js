@@ -10,9 +10,8 @@ const listingSchema = new mongoose.Schema({
     },
     description : String,
     image : {
-        type : String,
-        default : "https://skift.com/wp-content/uploads/2023/04/zany-jadraque-ZCRtfop2hZY-unsplash.jpg",
-        set : (v)=> v === "" ? "https://skift.com/wp-content/uploads/2023/04/zany-jadraque-ZCRtfop2hZY-unsplash.jpg" : v
+       url:String,
+       filename :String
     },
     price : Number,
     location : String,

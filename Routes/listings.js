@@ -5,8 +5,11 @@ const { isLoggedIn, isowner } = require('../middleware.js');
 const ExpressError = require('../ExpressError.js');
 const { listingSchema } = require('../Schema.js');
 const { index, renderNewform, showlistings, addListing, editListingForm, updateListing, deleteListings } = require('../controllers/listing.js');
-const multer  = require('multer')
-const upload = multer({ dest: 'uploads/' })
+const multer  = require('multer');
+const {storage} = require('../cloudConfig.js');
+const upload = multer({storage});
+
+require('dotenv').config();
 // Async error wrapper
 function asyncWrap(fn) {
     return function (req, res, next) {
@@ -27,7 +30,7 @@ const validateListing = (req, res, next) => {
 // Route to get all listings
 router.route("/")
       .get(asyncWrap(index))
-      .post(isLoggedIn, validateListing, asyncWrap(addListing));
+      .post(isLoggedIn,upload.single('image'),asyncWrap(addListing));
 
 
 router.get("/new", isLoggedIn,renderNewform);
